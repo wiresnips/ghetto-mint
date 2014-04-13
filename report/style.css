@@ -1,0 +1,17 @@
+
+
+td {
+	text-align: right;
+	padding: 0.25em;
+}
+
+td.bar {
+	width: 50%;
+	height: 1em;
+	text-align: left;
+}
+
+div {
+	height: 100%;
+	background-color: steelblue;
+}
