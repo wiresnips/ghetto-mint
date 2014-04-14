@@ -3,11 +3,14 @@ require 'mechanize'
 require 'logger'
 require 'mysql2'
 
+dir = File.dirname(File.realpath(__FILE__))
+
 # parse the one and only argument we accept
 cookies_only = ARGV.include? "--cookies-only"
 
 # prep the logger
-log = Logger.new File.join(__dir__, "log/scraper.log") rescue nil
+log = Logger.new File.join(dir, "log/scraper.log") rescue nil
+log ||= Logger.new STDOUT
 log << Time.new
 log << "\n"
 
@@ -15,7 +18,7 @@ log << "\n"
 agent = Mechanize.new
 agent.log = log
 agent.user_agent_alias = "Windows IE 9"
-agent.cookie_jar.load File.join(__dir__, '.cookies') rescue nil 
+agent.cookie_jar.load File.join(dir, '.cookies') rescue nil 
 
 
 # go fetch the page!
@@ -54,7 +57,7 @@ end
 
 
 # update our cookies, just in case there's something useful in there
-agent.cookie_jar.save_as File.join(__dir__, '.cookies'), session: true, format: :yaml	
+agent.cookie_jar.save_as File.join(dir, '.cookies'), session: true, format: :yaml	
 
 def url_params (url)
 	Hash[ url.split("?").last.split("&").map{ |param| param.split("=") } ]
