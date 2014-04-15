@@ -46,13 +46,59 @@
 <h1>
 <a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h1>
 
-<p>If you want to get this working for yourself, here's what you need:</p>
+<p>This is the bare minimum to get to a working setup on a totally fresh ubuntu system (12.04). The details and gotchas will probably vary from distro to distro. If you get things up and running on another OS, I'd love to hear the blow-by-blow, and post another guide.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>sudo apt-get update
+<span class="nv">$ </span>sudo apt-get install ruby1.9.1-dev build-essential mysql-server libmysqlclient-dev
+<span class="nv">$ </span>sudo gem install mechanize mysql2
+</pre></div>
 
 <ul>
-<li>mysql</li>
-<li>ruby</li>
-<li>the mechanize and mysql2 gems</li>
-</ul><p>to do: full set up &amp; installation on a fresh system (pref ubuntu)</p>
+<li>ghetto-mint is not especially picky about the version of ruby, but you <em>do</em> want the '-dev' edition of whatever you take- the gems rely on it.</li>
+<li>
+<p>MySQL will want you to enter a root password. It'll be rather insistent about it, actually. If you create one instead of leaving it blank, you will need to let scraper.rb know what it is. Look for</p>
+
+<div class="highlight highlight-ruby"><pre><span class="n">D</span> <span class="o">=</span> <span class="no">Mysql2</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">new</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">"root"</span>
+</pre></div>
+
+<p>and update it to</p>
+
+<div class="highlight highlight-ruby"><pre><span class="n">D</span> <span class="o">=</span> <span class="no">Mysql2</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">new</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">"root"</span><span class="p">,</span> <span class="ss">password</span><span class="p">:</span> <span class="s2">"your-mysql-password"</span>
+</pre></div>
+</li>
+</ul><p>Once that's all done, download ghetto-mint and unzip it somewhere. I'm going to assume for the rest of this guide that you put it in <code>~/Downloads</code>. Head over there and give it a whirl.</p>
+
+<p>A note for the paranoid: it's distinctly possible that if you've gotten this far, you're about to run my code and tell it how to sign into your bank. This would be a good time to inspect it (there really isn't all that much of it) and satisfy yourself that it's innocent.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span><span class="nb">cd</span> ~/Downloads/ghetto-mint-master
+<span class="nv">$ </span>ruby scraper.rb
+</pre></div>
+
+<p>If everything went properly, you'll be prompted for your scotiabank login info. When you type, nothing will appear in the console. This is normal. If everything continues to go properly, it'll spew output all over your console (to prevent this, create a log/ folder before hand), including whatever transactions are currently visible in each of your accounts.</p>
+
+<p>Next, we'll fire up a simple web-server and have a look at the report.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span><span class="nb">cd </span>report
+<span class="nv">$ </span>ruby -run -e httpd . -p 5000
+</pre></div>
+
+<p>Pop open a web browser and visit <code>localhost:5000</code> - you should see a simplistic breakdown of your last transactions. Anything that didn't fit a category is simply ignored. You'll almost certainly need to modify categorizer.rb to conform to your spending habits.</p>
+
+<p>For the final trick, we'll set up a couple of cron jobs to keep everything up to date.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>crontab -e
+</pre></div>
+
+<p>Add the following lines- the report server will start on boot, and ghetto-mint'll scrape your bank every eight minutes to keep the data fresh.</p>
+
+<pre><code># update ghetto-mint before the cookies go stale
+*/8 * * * * ruby /home/user-name/Downloads/ghetto-mint-master/scraper.rb --cookies-only
+
+# launch ghetto-mint's report server on startup
+@reboot cd /home/user-name/Downloads/ghetto-mint-master/report &amp;&amp; ruby -run -e httpd . -p 5000
+</code></pre>
+
+<p>Remember to modify the paths to match wherever you actually put ghetto-mint. The <code>--cookies-only</code> flag causes ghetto-mint to give up if it finds a login screen, instead of waiting around for user input - it'll only succeed if it's cookies can get it in.</p>
         </section>
 
         <footer>
