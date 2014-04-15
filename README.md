@@ -58,7 +58,7 @@ For the final trick, we'll set up a couple of cron jobs to keep everything up to
 $ crontab -e
 ```
 
-Add the following lines- it'll hit your bank site every eight minutes and start the report's server on startup.
+Add the following lines- the report server will start on boot, and ghetto-mint'll scrape your bank every eight minutes to keep the data fresh.
 
 ```
 # update ghetto-mint before the cookies go stale
