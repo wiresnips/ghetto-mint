@@ -22,7 +22,7 @@ $ sudo gem install mechanize mysql2
 ```
 
 * ghetto-mint is not especially picky about the version of ruby, but you *do* want the '-dev' edition of whatever you take- the gems rely on it.
-* MySQL will want you to enter a root password. It'll be rather insistent about it, actually. If you create one instead of leaving it blank, you will need to let scraper.rb know what it is. look for
+* MySQL will want you to enter a root password. It'll be rather insistent about it, actually. If you create one instead of leaving it blank, you will need to let scraper.rb know what it is. Look for
 
     ```ruby
     D = Mysql2::Client.new username: "root"
