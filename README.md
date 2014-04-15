@@ -68,4 +68,4 @@ Add the following lines- the report server will start on boot, and ghetto-mint'l
 @reboot cd /home/user-name/Downloads/ghetto-mint-master/report && ruby -run -e httpd . -p 5000
 ```
 
-Remember to modify the paths to match wherever you actually put ghetto-mint. The --cookies-only flag causes ghetto-mint to give up if it finds a login screen, instead of waiting around for user input - it'll only succeed if it's cookies can get it in.
+Remember to modify the paths to match wherever you actually put ghetto-mint. The ```--cookies-only``` flag causes ghetto-mint to give up if it finds a login screen, instead of waiting around for user input - it'll only succeed if it's cookies can get it in.
