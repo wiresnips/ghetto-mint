@@ -63,7 +63,6 @@
 					focus_radius: 5,
 					focus_attributes: { stroke: 'none', 'fill': 'white',  'fill-opacity' : 0 },
 
-					// show me the sundays
 					labels: { 
 						values: [#{ period.to_a.map{|d| d.strftime("\"%b %e\"") }.join(",") }], 
 						marker_size: 0,
@@ -93,6 +92,8 @@
 						grid: { stroke: "#AAA", 'stroke-width': 0.5 },
 					},
 
+					series_attributes: [ { fill: "orange", stroke: "none", gradient: "none" } ],
+
 					mouseover_attributes: {
 						stroke: "red",
 						callback: function (label) {
@@ -110,5 +111,6 @@
 					units_position: 0,
 					axis: true,
 					status_bar: true,
+					x_padding_right: 15
 				}
 			);
