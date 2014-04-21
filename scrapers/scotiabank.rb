@@ -13,7 +13,7 @@ def scrape
 	agent = Mechanize.new
 	agent.log = Log
 	agent.user_agent_alias = "Windows IE 9"
-	agent.cookie_jar.load File.join(DIR, '.cookies') rescue nil 
+	agent.cookie_jar.load "#{DIR}/.cookies" rescue nil 
 
 	# go fetch the page!
 	page = agent.get "https://www1.scotiaonline.scotiabank.com/online/authentication/authentication.bns"

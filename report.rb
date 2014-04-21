@@ -3,7 +3,7 @@ require 'date'
 require_relative "init"
 
 def render_report (balances)
-	days_to_count = 30
+	days_to_count = 60
 
 	# pull up the last couple weeks of transactions
 	startingpoint = (Date.today - days_to_count)
@@ -51,8 +51,8 @@ def render_report (balances)
 	}
 
 
-	File.open("report/index.html", "w") do |file|
-		engine = Haml::Engine.new(File.read("index.html.haml"))
+	File.open("#{DIR}/report/index.html", "w") do |file|
+		engine = Haml::Engine.new(File.read( File.join(DIR, "index.html.haml")))
 		file << engine.render( Object.new, view_values )
 	end
 

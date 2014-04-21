@@ -12,9 +12,9 @@ Transaction = Struct.new(:account, :date, :label, :amount, :category)
 
 
 # prep the logger
-Log = Logger.new File.join(DIR, "log/ghetto-mint.log") rescue nil
+Log = Logger.new "#{DIR}/log/ghetto-mint.log" rescue nil
 Log ||= Logger.new STDOUT
-Log << "#{Time.new}\n"
+Log << "\n\n#{Time.new}\n"
 
 
 # create the table if it doesn't exist yet
