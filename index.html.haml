@@ -1,0 +1,110 @@
+
+
+%html
+	%head
+		%title #{ Time.now.strftime "%b %e | %l:%M" }
+		%link{ rel: "stylesheet", href: "style.css" }
+		%script{ src: "raphael.js" }
+		%script{ src: "ico.js" }
+
+	%body
+		- categories = transactions.map(&:category).uniq
+
+		.column
+			#account_history
+
+			%div
+				daily average spending: 
+				$#{ "%0.2f" % (transactions.reject{ |t| t.category == "salary" }.map(&:amount).inject(:+).abs / period.to_a.length) }
+
+			%div
+				#cat_avg_day
+				#category-expenses
+					- transactions.group_by(&:category).each do |category, expenses|
+						%table.category-expense-list{ id: category.gsub(/\s+/, "-") }
+							- expenses.sort_by(&:date).reverse.each do |item|
+								%tr
+									%td.expense-date= item.date.strftime("%b %e")
+									%td.expense-label= item.label.downcase
+									%td.expense-price= "%0.2f" % (-item.amount)
+							%tr
+								%td
+								%td
+								%td.expense-tally= "%0.2f" % (-expenses.map(&:amount).inject(:+))
+
+
+			.clear
+			
+
+
+		:javascript
+			new Ico.LineGraph(
+				"account_history",
+				[ #{ balances.map{ |account, history| "[#{ history.map{|b| "%.2f" % b }.join(", ") }]" }.join(",\n\t") } ],
+
+				{
+					series_names: [ #{ balances.keys.map{|a| "\"#{a}\""}.join(", ") } ],
+					series_attributes: [ 
+						{ stroke: "80f", 'stroke-width': 3 }, 
+						{ stroke: "08f", 'stroke-width': 3 },
+						{ stroke: "orange", 'stroke-width': 3 }
+					],
+
+					curve_amount: 0,
+					dot_radius: 0,
+
+					status_bar: true,
+					focus_radius: 5,
+					focus_attributes: { stroke: 'none', 'fill': 'white',  'fill-opacity' : 0 },
+
+					labels: { 
+						values: [#{ period.to_a.map{|d| d.strftime("\"%b %e\"") }.join(",") }], 
+						marker_size: 0,
+						font: { 'font-family': 'Arial', 'font-size': 15, 'fill' : 'none', stroke: 'none' },
+						grid: { stroke: "#AAA", 'stroke-width': 0.5 }
+					},
+
+					value_labels: {
+						grid: { stroke: "#AAA", 'stroke-width': 0.5, emphasize: ["$0"] },
+					},
+
+					units: '$', 
+					units_position: 0,
+					axis: true
+				}
+			);
+
+			new Ico.HorizontalBarGraph(
+				"cat_avg_day",
+				[ #{cat_avg_day.map{|c| "%.2f" % c[1] }.join(", ")} ],
+				{
+					labels: { 
+						values: [ #{cat_avg_day.map{|c|"\"#{c[0]}\""}.join(", ") } ]
+					},
+
+					value_labels: {
+						grid: { stroke: "#AAA", 'stroke-width': 0.5 },
+					},
+
+					series_attributes: [ { fill: "orange", stroke: "none", gradient: "none" } ],
+
+					mouseover_attributes: {
+						stroke: "red",
+						callback: function (label) {
+							listID = label.replace(/\s+/g, '-')
+
+							var lists = document.getElementsByClassName('category-expense-list')
+							for (var i = 0; i < lists.length; i++)
+							    lists[i].style.display = "none";
+							
+							document.getElementById(listID).style.display = "inline-block"
+						}
+					},
+
+					units: '$', 
+					units_position: 0,
+					axis: true,
+					status_bar: true,
+					x_padding_right: 15
+				}
+			);

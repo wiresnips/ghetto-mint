@@ -1,17 +1,79 @@
 
-
-td {
-	text-align: right;
-	padding: 0.25em;
+* {
+	padding: 0;
+	border: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
 
-td.bar {
+.clear { clear: both; }
+
+path {
+	stroke-miterlimit: 0;
+}
+
+.column {
+	position: relative;
+	width: 800px;
+	min-height: 100%;
+	margin: auto;
+	box-sizing: content-box;
+
+	background-color: #eee;
+}
+
+#account_history {
+	height: 400px;
+}
+
+
+#cat_avg_day {
+	float: left;
 	width: 50%;
-	height: 1em;
-	text-align: left;
+	height: 250px;
+	display: inline-block;
 }
 
-div {
-	height: 100%;
-	background-color: steelblue;
+#category-expenses {
+	position: relative;
+	float: left;
+	width: 50%;
+	padding-top: 1em;
+
+	background-color: #ddd;
+}
+
+.category-expense-list {
+	margin-bottom: 1em;
+	display: none;
+	background-color: #ccc;
+	width: 100%;
+	position: relative;
+	table-layout:fixed;
+}
+
+.category-expense-list td {
+	padding: 0.1em;
+}
+
+.expense-date, .expense-price {
+	white-space: nowrap;
+	width: 15%;
+}
+
+.expense-label {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 70%;
+}
+
+.expense-price, .expense-tally {
+	text-align: right;
+	font-family: monospace;
+}
+
+.expense-tally {
+	display: block;
+	border-top: 2px solid #333;
 }

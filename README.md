@@ -22,7 +22,7 @@ $ sudo gem install mechanize mysql2
 ```
 
 * ghetto-mint is not especially picky about the version of ruby, but you *do* want the '-dev' edition of whatever you take- the gems rely on it.
-* MySQL will want you to enter a root password. It'll be rather insistent about it, actually. If you create one instead of leaving it blank, you will need to let scraper.rb know what it is. Look for
+* MySQL will want you to enter a root password. It'll be rather insistent about it, actually. If you create one instead of leaving it blank, you will need to let scraper.rb know what it is. look for
 
     ```ruby
     D = Mysql2::Client.new username: "root"
@@ -58,7 +58,7 @@ For the final trick, we'll set up a couple of cron jobs to keep everything up to
 $ crontab -e
 ```
 
-Add the following lines- the report server will start on boot, and ghetto-mint'll scrape your bank every eight minutes to keep the data fresh.
+Add the following lines- it'll hit your bank site every eight minutes and start the report's server on startup.
 
 ```
 # update ghetto-mint before the cookies go stale
@@ -68,4 +68,4 @@ Add the following lines- the report server will start on boot, and ghetto-mint'l
 @reboot cd /home/user-name/Downloads/ghetto-mint-master/report && ruby -run -e httpd . -p 5000
 ```
 
-Remember to modify the paths to match wherever you actually put ghetto-mint. The ```--cookies-only``` flag causes ghetto-mint to give up if it finds a login screen, instead of waiting around for user input - it'll only succeed if it's cookies can get it in.
+Remember to modify the paths to match wherever you actually put ghetto-mint. The --cookies-only flag causes ghetto-mint to give up if it finds a login screen, instead of waiting around for user input - it'll only succeed if it's cookies can get it in.
