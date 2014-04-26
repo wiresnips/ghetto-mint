@@ -31,7 +31,7 @@ def render_report (balances)
 		end
 	end
 
-	balance_history.keys.each{ |account| balance_history[account].reverse! and balance_history[account].pop }
+	balance_history.keys.each{ |account| balance_history[account].reverse! and balance_history[account].shift }
 
 
 
