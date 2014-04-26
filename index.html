@@ -1,37 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>ghetto-mint by wiresnips</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>ghetto-mint by wiresnips</title>
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
+    <div class="wrapper">
+      <header>
+        <h1>ghetto-mint</h1>
+        <p></p>
 
-        <header>
-          <h1>ghetto-mint</h1>
-          <h2></h2>
-        </header>
+        <p class="view"><a href="https://github.com/wiresnips/ghetto-mint">View the Project on GitHub <small>wiresnips/ghetto-mint</small></a></p>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/wiresnips/ghetto-mint/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/wiresnips/ghetto-mint/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/wiresnips/ghetto-mint" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
 
-        <hr>
-
-        <section id="main_content">
-          <h1>
+        <ul>
+          <li><a href="https://github.com/wiresnips/ghetto-mint/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/wiresnips/ghetto-mint/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/wiresnips/ghetto-mint">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
 <a name="dumb-as-bricks-financial-tracking" class="anchor" href="#dumb-as-bricks-financial-tracking"><span class="octicon octicon-link"></span></a>Dumb-as-bricks financial tracking</h1>
 
 <p>Scrape your bank's website, shove your transaction history into a local database, render a breakdown into static html to serve on your home network (or whatever). I built ghetto-mint for myself because I wanted basic financial analytics, but I didn't want to have to trust Mint with my bank login.</p>
@@ -48,15 +45,15 @@
 
 <p>This is the bare minimum to get to a working setup on a totally fresh ubuntu system (12.04). The details and gotchas will probably vary from distro to distro. If you get things up and running on another OS, I'd love to hear the blow-by-blow, and post another guide.</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span>sudo apt-get update
-<span class="nv">$ </span>sudo apt-get install ruby1.9.1-dev build-essential mysql-server libmysqlclient-dev
-<span class="nv">$ </span>sudo gem install mechanize mysql2
+<div class="highlight highlight-bash"><pre>sudo apt-get update
+sudo apt-get install ruby1.9.1-dev build-essential mysql-server libmysqlclient-dev
+sudo gem install mechanize mysql2 haml
 </pre></div>
 
 <ul>
 <li>ghetto-mint is not especially picky about the version of ruby, but you <em>do</em> want the '-dev' edition of whatever you take- the gems rely on it.</li>
 <li>
-<p>MySQL will want you to enter a root password. It'll be rather insistent about it, actually. If you create one instead of leaving it blank, you will need to let scraper.rb know what it is. Look for</p>
+<p>MySQL will want you to enter a root password. It'll be rather insistent about it, actually. If you create one instead of leaving it blank, you will need to let init.rb know what it is. look for</p>
 
 <div class="highlight highlight-ruby"><pre><span class="n">D</span> <span class="o">=</span> <span class="no">Mysql2</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">new</span> <span class="ss">username</span><span class="p">:</span> <span class="s2">"root"</span>
 </pre></div>
@@ -70,44 +67,42 @@
 
 <p>A note for the paranoid: it's distinctly possible that if you've gotten this far, you're about to run my code and tell it how to sign into your bank. This would be a good time to inspect it (there really isn't all that much of it) and satisfy yourself that it's innocent.</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span><span class="nb">cd</span> ~/Downloads/ghetto-mint-master
-<span class="nv">$ </span>ruby scraper.rb
+<div class="highlight highlight-bash"><pre><span class="nb">cd</span> ~/Downloads/ghetto-mint-master
+ruby ghetto-mint.rb
 </pre></div>
 
 <p>If everything went properly, you'll be prompted for your scotiabank login info. When you type, nothing will appear in the console. This is normal. If everything continues to go properly, it'll spew output all over your console (to prevent this, create a log/ folder before hand), including whatever transactions are currently visible in each of your accounts.</p>
 
 <p>Next, we'll fire up a simple web-server and have a look at the report.</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span><span class="nb">cd </span>report
-<span class="nv">$ </span>ruby -run -e httpd . -p 5000
+<div class="highlight highlight-bash"><pre><span class="nb">cd </span>report
+ruby -run -e httpd . -p 5000
 </pre></div>
 
 <p>Pop open a web browser and visit <code>localhost:5000</code> - you should see a simplistic breakdown of your last transactions. Anything that didn't fit a category is simply ignored. You'll almost certainly need to modify categorizer.rb to conform to your spending habits.</p>
 
 <p>For the final trick, we'll set up a couple of cron jobs to keep everything up to date.</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span>crontab -e
+<div class="highlight highlight-bash"><pre>crontab -e
 </pre></div>
 
-<p>Add the following lines- the report server will start on boot, and ghetto-mint'll scrape your bank every eight minutes to keep the data fresh.</p>
+<p>Add the following lines- it'll hit your bank site every eight minutes and start the report's server on startup.</p>
 
 <pre><code># update ghetto-mint before the cookies go stale
-*/8 * * * * ruby /home/user-name/Downloads/ghetto-mint-master/scraper.rb --cookies-only
+*/8 * * * * ruby /home/user-name/Downloads/ghetto-mint-master/ghetto-mint.rb --cookies-only
 
 # launch ghetto-mint's report server on startup
 @reboot cd /home/user-name/Downloads/ghetto-mint-master/report &amp;&amp; ruby -run -e httpd . -p 5000
 </code></pre>
 
-<p>Remember to modify the paths to match wherever you actually put ghetto-mint. The <code>--cookies-only</code> flag causes ghetto-mint to give up if it finds a login screen, instead of waiting around for user input - it'll only succeed if it's cookies can get it in.</p>
-        </section>
-
-        <footer>
-          ghetto-mint is maintained by <a href="https://github.com/wiresnips">wiresnips</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-        
-      </div>
+<p>Remember to modify the paths to match wherever you actually put ghetto-mint. The --cookies-only flag causes ghetto-mint to give up if it finds a login screen, instead of waiting around for user input - it'll only succeed if it's cookies can get it in.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/wiresnips">wiresnips</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
   </body>
 </html>
