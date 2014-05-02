@@ -1,7 +1,7 @@
 
 Category_matcher = {
 	"salary"		=> [ /payroll/i ],
-	"groceries" 	=> [ /yig hartman/i, /loblaws/i, /herb.*spice shop/i, /quickie/i, /korean market/i ],
+	"groceries" 	=> [ /yig hartman/i, /loblaw/i, /herb.*spice shop/i, /quickie/i, /korean market/i ],
 	"restaurant" 	=> [ /restaurant/i, /coffee/i, /pizza/i, /subway/i, /souvlaki/i, /tim horton/i, 
 						 /saigon pho/i, /shawarma/i, /greco/i, /thai/i, /burger/i, /stone face dolly/i ,
 						 /kasbah village morocca/i, /diner/i,  ],
