@@ -22,7 +22,7 @@ sudo gem install mechanize mysql2 haml
 ```
 
 * ghetto-mint is not especially picky about the version of ruby, but you *do* want the '-dev' edition of whatever you take- the gems rely on it.
-* MySQL will want you to enter a root password. It'll be rather insistent about it, actually. If you create one instead of leaving it blank, you will need to let init.rb know what it is. look for
+* MySQL will want you to enter a root password. It'll be rather insistent about it, actually. If you create one instead of leaving it blank, you will need to let init.rb know what it is. Look for
 
     ```ruby
     D = Mysql2::Client.new username: "root"
@@ -32,12 +32,12 @@ sudo gem install mechanize mysql2 haml
     D = Mysql2::Client.new username: "root", password: "your-mysql-password"
     ```
 
-Once that's all done, download ghetto-mint and unzip it somewhere. I'm going to assume for the rest of this guide that you put it in ```~/Downloads```. Head over there and give it a whirl.
+Once that's all done, download ghetto-mint and unzip it somewhere. I'm going to assume for the rest of this guide that you put it in ```~/Downloads/ghetto-mint```. Head over there and give it a whirl.
 
 A note for the paranoid: it's distinctly possible that if you've gotten this far, you're about to run my code and tell it how to sign into your bank. This would be a good time to inspect it (there really isn't all that much of it) and satisfy yourself that it's innocent.
 
 ```bash
-cd ~/Downloads/ghetto-mint-master
+cd ~/Downloads/ghetto-mint
 ruby ghetto-mint.rb
 ```
 
@@ -62,10 +62,10 @@ Add the following lines- it'll hit your bank site every eight minutes and start 
 
 ```
 # update ghetto-mint before the cookies go stale
-*/8 * * * * ruby /home/user-name/Downloads/ghetto-mint-master/ghetto-mint.rb --cookies-only
+*/8 * * * * ruby /home/USER-NAME/Downloads/ghetto-mint/ghetto-mint.rb --cookies-only
 
 # launch ghetto-mint's report server on startup
-@reboot cd /home/user-name/Downloads/ghetto-mint-master/report && ruby -run -e httpd . -p 5000
+@reboot cd /home/USER-NAME/Downloads/ghetto-mint/report && ruby -run -e httpd . -p 5000
 ```
 
 Remember to modify the paths to match wherever you actually put ghetto-mint. The --cookies-only flag causes ghetto-mint to give up if it finds a login screen, instead of waiting around for user input - it'll only succeed if it's cookies can get it in.
