@@ -42,7 +42,6 @@ def render_report (balances)
 
 
 
-
 	view_values = {
 		period: (startingpoint..Date.today),
 		transactions: transactions,

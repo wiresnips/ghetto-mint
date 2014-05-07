@@ -8,10 +8,6 @@
 		%script{ src: "ico.js" }
 
 	%body
-		- # net balance = general - credit
-		- balances["net"] = [balances["P19E99EE7"], balances["P49313E60"]].transpose.map{|e| e.inject(:+) }
-		- balances.reject!{ |account, history| account == "P19E99EE7" } 
-
 		- categories = transactions.map(&:category).uniq
 
 		.column
@@ -36,8 +32,6 @@
 								%td
 								%td.expense-tally= "%0.2f" % (-expenses.map(&:amount).inject(:+))
 
-		
-
 
 			.clear
 			
@@ -49,7 +43,7 @@
 				[ #{ balances.map{ |account, history| "[#{ history.map{|b| "%.2f" % b }.join(", ") }]" }.join(",\n\t") } ],
 
 				{
-					series_names: [ 'savings', "cash on hand", "net" ],
+					series_names: [ #{ balances.keys.map{|a| "\"#{a}\""}.join(", ") } ],
 					series_attributes: [ 
 						{ stroke: "80f", 'stroke-width': 3 }, 
 						{ stroke: "08f", 'stroke-width': 3 },
