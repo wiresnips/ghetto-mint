@@ -6,14 +6,14 @@ Scrape your bank's website, shove your transaction history into a local database
 Some Assembly Required
 ======================
 
-With that in mind, ghetto-mint is about as dumb as it could possibly be. The whole thing is less than 250 lines of ruby. The hope is that anyone comfortable with the language will be able to read the code and be confident that it isn't doing anything sneaky. Then they could retrofit the scraper code for their own financial institution and run their own financial analytics.
+With that in mind, ghetto-mint is about as dumb as it could possibly be. The whole thing is about 400 lines of ruby. The hope is that anyone comfortable with the language will be able to read the code and be confident that it isn't doing anything sneaky. Then they could retrofit the scraper code for their own financial institution and run their own financial analytics.
 
 This is not a packaged solution, and it probably won't work out of the box. It's more like a *template* of a program than anything else.
 
 Setup
 =====
 
-This is the bare minimum to get to a working setup on a totally fresh ubuntu system (12.04). The details and gotchas will probably vary from distro to distro. If you get things up and running on another OS, I'd love to hear the blow-by-blow, and post another guide.
+This is the bare minimum to get to a working setup on a totally fresh ubuntu system (14.04). The details and gotchas will probably vary from distro to distro. If you get things up and running on another OS, I'd love to hear the blow-by-blow, and post another guide.
 
 ```bash
 sudo apt-get update
