@@ -1,7 +1,11 @@
 Dumb-as-bricks financial tracking
 =================================
 
-Scrape your bank's website, shove your transaction history into a local database, render a breakdown into static html to serve on your home network (or whatever). I built ghetto-mint for myself because I wanted basic financial analytics, but I didn't want to have to trust Mint with my bank login.
+Scrape your bank's website, shove your transaction history into a local database, render a breakdown into static html to serve on your home network (or whatever).
+
+![purty](http://imgur.com/P9puqxn.png)
+
+(If you actually do this, there will be numbers in the axies.)
 
 Some Assembly Required
 ======================
