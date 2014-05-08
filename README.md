@@ -3,7 +3,7 @@ Dumb-as-bricks financial tracking
 
 Scrape your bank's website, shove your transaction history into a local database, render a breakdown into static html to serve on your home network (or whatever).
 
-![purty](http://imgur.com/P9puqxn.png)
+![purty](http://i.imgur.com/6FlchFg.png)
 
 (If you actually do this, there will be numbers in the axies.)
 
