@@ -5,8 +5,6 @@ Scrape your bank's website, shove your transaction history into a local database
 
 ![purty](http://i.imgur.com/6FlchFg.png)
 
-(If you actually do this, there will be numbers in the axies.)
-
 Some Assembly Required
 ======================
 
