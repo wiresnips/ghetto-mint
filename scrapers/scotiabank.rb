@@ -36,6 +36,8 @@ def scrape
 		puts
 
 		# submit the user's login info
+		Log << "Kill logs during signin... "
+		agent.log = nil
 		page = agent.submit login, login.buttons.first
 
 		# have we been punted to a secret question?
@@ -49,6 +51,9 @@ def scrape
 
 			page = agent.submit form, form.buttons.first
 		end
+		
+		agent.log = Log
+		Log << "Done.\n\n"
 	end
 
 
